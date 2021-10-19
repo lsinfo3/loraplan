@@ -592,7 +592,6 @@ def start_calculation(mycanvas,status):
             if i < len(sensorcolumnsinfile):
                 sensorgrid[x][y][i+3] += int(workfile[index]
                                              [sensorcolumnsinfile[i]])
-            total_sensors += sensorgrid[x][y][i+3]
         if(x > maxx):
             maxx = x
         if(y > maxy):
@@ -608,8 +607,10 @@ def start_calculation(mycanvas,status):
                     scrollregion=(0, 0, maxx*(gridsize/10), maxy*(gridsize/10)))
     if gdem_file_path != "" and use_map:
         demmaxmin = dembackground(mycanvas, sensorgrid)
-    for x in range(maxx):
-        for y in range(maxy):
+    for x in range(maxx+1):
+        for y in range(maxy+1):
+            for i in range(0, sensorsize):
+                total_sensors += sensorgrid[x][y][i+3]
             if gdem_file_path != "" and use_map:
                 curr = maputils.getelevation_from_map(gdem_file_path, x, y)
                 curr = int(
